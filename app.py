@@ -16,7 +16,7 @@ USERS = {'Mahmoud Hussein': 'admin1234', 'Test': 'Test'}
 def index():
     '''Define the default route.'''
     # If no user is logged in, redirect to login page.
-    if not session.get('name'):
+    if not session.get('username'):
         return redirect('/login')
 
     return render_template('index.html')
@@ -33,14 +33,14 @@ def login():
         for user in USERS:
             if username == user and password == USERS[user]:
                 # Add user to session and redirect to homepage.
-                session['name'] = username
+                session['username'] = username
                 return redirect('/')
 
         # User is not registered.
-        return render_template('failure.html')
+        return render_template('login.html', msg='fail')
 
     # GET request.
-    if not session.get('name'):
+    if not session.get('username'):  # If user is not logged in.
         return render_template('login.html')
     else:
         # User already logged in.
@@ -51,7 +51,7 @@ def login():
 def logout():
     '''Define logout route.'''
     # Remove user from session.
-    session['name'] = None
+    session['username'] = None
     return redirect('/')
 
 

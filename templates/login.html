@@ -9,11 +9,21 @@
 </head>
 
 <body>
-    <form action="/login" method="post">
-        <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off">
-        <input type="password" name="password" id="password" placeholder="Password">
-        <button type="submit">Login</button>
-    </form>
+    {% if msg != "fail" %}
+        <h1>Login</h1>
+        <form action="/login" method="post">
+            <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off">
+            <input type="password" name="password" id="password" placeholder="Password">
+            <button type="submit">Login</button>
+        </form>
+    {% else %}
+        <h1>User not registered!</h1> <br>
+        <form action="/login" method="post">
+            <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off">
+            <input type="password" name="password" id="password" placeholder="Password">
+            <button type="submit">Login</button>
+        </form>
+    {% endif %}
 </body>
 
 </html>
