@@ -33,4 +33,7 @@ class Database:
         # Execute query.
         row = cur.execute("SELECT * FROM Users WHERE id=?", (id,)).fetchall()[0]
 
+        # Close connection to db.
+        self._close_db(conn)
+
         return row
