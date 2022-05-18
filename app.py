@@ -20,7 +20,7 @@ db = Database(db_file)
 
 # Configure photo upload and save.
 UPLOAD_FOLDER = join(dirname(abspath(__file__)), 'photos')
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'heif'}
+# ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'heif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -103,9 +103,13 @@ def register():
 
             # Insert new user data in database.
             new_id = db.insert((username, name, email, password))
+
+            # Change the name of the photo.
+            photo.filename = str(new_id) + '.' + photo.filename.rsplit('.', 1)[1].lower()
+
             # Save photo.
-            # photo.filename = str(new_id) + ".jpg"
             photo.save(join(app.config['UPLOAD_FOLDER'], photo.filename))
+
             # Login the user and redirect to homepage.
             session['id'] = new_id
             return redirect('/')
@@ -126,12 +130,12 @@ def check_login_form(req):
 
 def check_register_form(req):
     """ Make sure the user submitted the form correctly. """
-    return all([req.form.get(i) for i in ['username', 'name', 'email', 'password', 'confirm']]) #and 'file' in req.files
+    return all([req.form.get(i) for i in ['username', 'name', 'email', 'password', 'confirm']]) and 'photo' in req.files
 
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+# def allowed_file(filename):
+#     return '.' in filename and \
+#            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 if __name__ == '__main__':

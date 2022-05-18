@@ -15,17 +15,17 @@
     {% endif %}
     <form action="/register" method="post" enctype="multipart/form-data">
         <label for="username">Username</label>
-        <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off">
+        <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off" autocapitalize="off"> <br>
         <label for="name">Full Name</label>
-        <input type="text" name="name" id="name" placeholder="Full Name" autocomplete="off">
+        <input type="text" name="name" id="name" placeholder="Full Name" autocomplete="off" autocapitalize="words"> <br>
         <label for="email">Email</label>
-        <input type="text" name="email" id="email" placeholder="Email" autocomplete="off">
+        <input type="text" name="email" id="email" placeholder="Email" autocomplete="off" autocapitalize="off"> <br>
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
+        <input type="password" name="password" id="password" placeholder="Password" autocomplete="off"> <br>
         <label for="confirm">Confirm Passord</label>
-        <input type="password" name="confirm" id="confirm" placeholder="Confirm Password" autocomplete="off">
+        <input type="password" name="confirm" id="confirm" placeholder="Confirm Password" autocomplete="off"> <br>
         <label for="photo">Upload Photo</label>
-        <input type="file" name="photo" id="photo">
+        <input type="file" name="photo" id="photo"> <br>
         <button type="submit">Register</button>
     </form>
 </body>

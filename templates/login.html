@@ -9,21 +9,17 @@
 </head>
 
 <body>
-    {% if not msg %}
         <h1>Login</h1>
+        {% if msg %}
+            <h3>{{ msg }}</h3>
+        {% endif %}
         <form action="/login" method="post">
-            <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off">
-            <input type="password" name="password" id="password" placeholder="Password">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off"> <br>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password"> <br>
             <button type="submit">Login</button>
         </form>
-    {% else %}
-        <h1>{{ msg }}</h1> <br>
-        <form action="/login" method="post">
-            <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off">
-            <input type="password" name="password" id="password" placeholder="Password">
-            <button type="submit">Login</button>
-        </form>
-    {% endif %}
 </body>
 
 </html>
