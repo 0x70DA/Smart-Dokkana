@@ -73,15 +73,49 @@ def logout():
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     """ Define the register route. """
-    pass
+    if request.method == 'POST':
+        rows = db.select_all()
+        # Check no missing data from the from.
+        if check_register_form(request):
+            username = request.form.get('username')
+            name = request.form.get('name')
+            email = request.form.get('email')
+            password = request.form.get('password')
+            confirm_password = request.form.get('confirm')
+
+            # Confirm password is entered correctly.
+            if password != confirm_password:
+                return render_template('register.html', msg="Enter password correctly.")
+            # Make sure username and email don't already exist.
+            for row in rows:
+                if username == row['username']:
+                    return render_template('register.html', msg='Username already exists!')
+                if email == row['email']:
+                    return render_template('register.html', msg='Email already exists!')
+
+            # Insert new user data in database.
+            new_id = db.insert((username, name, email, password))
+            # Login the user and redirect to homepage.
+            session['id'] = new_id
+            return redirect('/')
+
+        else:
+            # Form is missing data.
+            return render_template('register.html', msg="Please, fill in all data fields.")
+
+    # GET request.
+    return render_template('register.html')
+
 
 def check_login_form(req):
-    """ Make sure that the user submited the form correctly. """
+    """ Make sure that the user submitted the form correctly. """
     # Check for username and password.
-    if not req.form.get('username') or not req.form.get('password'):
-        return False
+    return all(req.form.get(i) for i in ['username', 'password'])
 
-    return True
+
+def check_register_form(req):
+    """ Make sure the user submitted the form correctly. """
+    return all([req.form.get(i) for i in ['username', 'name', 'email', 'password', 'confirm']])
 
 
 if __name__ == '__main__':
