@@ -57,5 +57,5 @@ class Database:
         return rows
 
 # db = Database('database.db')
-# # print(db.select(1))
+# print(db.select(1))
 # print(db.select_all())

@@ -70,6 +70,11 @@ def logout():
     return redirect('/')
 
 
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    """ Define the register route. """
+    pass
+
 def check_login_form(req):
     """ Make sure that the user submited the form correctly. """
     # Check for username and password.
@@ -77,6 +82,7 @@ def check_login_form(req):
         return False
 
     return True
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
