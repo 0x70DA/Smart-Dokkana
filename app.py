@@ -26,7 +26,7 @@ def index():
 
     # Get user's data.
     user_data = db.select(session.get('id'))
-    
+
     return render_template('index.html', user_data=user_data)
 
 
@@ -34,22 +34,25 @@ def index():
 def login():
     '''Define the login route.'''
     if request.method == 'POST':
-        # User submitted a form.
-        username = request.form.get('username')
-        password = request.form.get('password')
+        if check_login_form(request):
+            # User submitted the form correctly.
+            username = request.form.get('username')
+            password = request.form.get('password')
 
-        # Get all rows from db.
-        rows = db.select_all()
+            # Get all rows from db.
+            rows = db.select_all()
 
-        # If user is in database, log them in.
-        for row in rows:
-            if username == row['username'] and password == row['password']:
-                # Add user to session and redirect to homepage.
-                session['id'] = row['id']
-                return redirect('/')
+            # If user is in database, log them in.
+            for row in rows:
+                if username == row['username'] and password == row['password']:
+                    # Add user to session and redirect to homepage.
+                    session['id'] = row['id']
+                    return redirect('/')
 
-        # User is not registered.
-        return render_template('login.html', msg='fail')
+            # User is not registered.
+            return render_template('login.html', msg='User is not registerd.')
+        else:
+            return render_template('login.html', msg='Please, enter data correctly.')
 
     # GET request.
     if not session.get('id'):  # If user is not logged in.
@@ -66,6 +69,14 @@ def logout():
     session['id'] = None
     return redirect('/')
 
+
+def check_login_form(req):
+    """ Make sure that the user submited the form correctly. """
+    # Check for username and password.
+    if not req.form.get('username') or not req.form.get('password'):
+        return False
+
+    return True
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
