@@ -39,7 +39,7 @@ class Database:
 
         return row
 
-    def select_all(self):
+    def select_all(self) -> list:
         """ Return all the rows from the database. """
         # Create connection to db.
         conn = self._connect_db()
@@ -56,6 +56,27 @@ class Database:
 
         return rows
 
+    def insert(self, row: tuple) -> int:
+        """ Insert a new row to the database. """
+        # Create connection to db.
+        conn = self._connect_db()
+
+        # Create a cursor object.
+        cur = conn.cursor()
+
+        # Execute query.
+        query = "INSERT INTO Users(username, name, email, password) VALUES(?, ?, ?, ?)"
+        cur.execute(query, row)
+        conn.commit()
+        last_row_id = cur.lastrowid
+
+        # Close connection to db.
+        self._close_db(conn)
+
+        # Return the id of the new row.
+        return last_row_id
+
 # db = Database('database.db')
 # print(db.select(1))
 # print(db.select_all())
+# print(db.insert(('example', 'example', 'example@example.com', 'example')))
