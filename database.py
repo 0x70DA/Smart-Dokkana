@@ -22,18 +22,26 @@ class Database:
         if conn:
             conn.close()
 
-    def select(self, id: int) -> tuple:
-        """ Return the row specified by the id.. """
+    def select(self, id: int) -> dict:
+        """ Return the row specified by the id. """
         # Create connection to db.
         conn = self._connect_db()
+        conn.row_factory = sqlite3.Row  # To return a dictionary instead of a tuple.
 
         # Create a Cursor object.
         cur = conn.cursor()
 
         # Execute query.
-        row = cur.execute("SELECT * FROM Users WHERE id=?", (id,)).fetchall()[0]
+        row = dict(cur.execute("SELECT * FROM Users WHERE id=?", (id,)).fetchone())
 
         # Close connection to db.
         self._close_db(conn)
 
         return row
+
+    def select_all(self):
+        """ Return all the rows from the database. """
+        pass
+
+# db = Database('database.db')
+# print(db.select(1))
