@@ -41,7 +41,21 @@ class Database:
 
     def select_all(self):
         """ Return all the rows from the database. """
-        pass
+        # Create connection to db.
+        conn = self._connect_db()
+        conn.row_factory = sqlite3.Row
+
+        # Create a cursor object.
+        cur = conn.cursor()
+
+        # Execute query.
+        rows = list(map(dict, cur.execute("SELECT * FROM Users").fetchall()))
+
+        # Close connection to db.
+        self._close_db(conn)
+
+        return rows
 
 # db = Database('database.db')
-# print(db.select(1))
+# # print(db.select(1))
+# print(db.select_all())
