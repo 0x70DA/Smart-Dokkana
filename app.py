@@ -1,6 +1,8 @@
+from os.path import join, dirname, abspath
 from flask import Flask, request, render_template, redirect, session
 from flask_session import Session
 from database import Database
+
 
 app = Flask(__name__)
 
@@ -15,6 +17,11 @@ Session(app)
 # Configure database.
 db_file = "database.db"
 db = Database(db_file)
+
+# Configure photo upload and save.
+UPLOAD_FOLDER = join(dirname(abspath(__file__)), 'photos')
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'heif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -82,6 +89,7 @@ def register():
             email = request.form.get('email')
             password = request.form.get('password')
             confirm_password = request.form.get('confirm')
+            photo = request.files['photo']
 
             # Confirm password is entered correctly.
             if password != confirm_password:
@@ -95,6 +103,9 @@ def register():
 
             # Insert new user data in database.
             new_id = db.insert((username, name, email, password))
+            # Save photo.
+            # photo.filename = str(new_id) + ".jpg"
+            photo.save(join(app.config['UPLOAD_FOLDER'], photo.filename))
             # Login the user and redirect to homepage.
             session['id'] = new_id
             return redirect('/')
@@ -115,7 +126,12 @@ def check_login_form(req):
 
 def check_register_form(req):
     """ Make sure the user submitted the form correctly. """
-    return all([req.form.get(i) for i in ['username', 'name', 'email', 'password', 'confirm']])
+    return all([req.form.get(i) for i in ['username', 'name', 'email', 'password', 'confirm']]) #and 'file' in req.files
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 if __name__ == '__main__':

@@ -13,12 +13,19 @@
     {% if msg %}
         <h3>{{ msg }}</h3>
     {% endif %}
-    <form action="/register" method="post">
+    <form action="/register" method="post" enctype="multipart/form-data">
+        <label for="username">Username</label>
         <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off">
+        <label for="name">Full Name</label>
         <input type="text" name="name" id="name" placeholder="Full Name" autocomplete="off">
+        <label for="email">Email</label>
         <input type="text" name="email" id="email" placeholder="Email" autocomplete="off">
+        <label for="password">Password</label>
         <input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
+        <label for="confirm">Confirm Passord</label>
         <input type="password" name="confirm" id="confirm" placeholder="Confirm Password" autocomplete="off">
+        <label for="photo">Upload Photo</label>
+        <input type="file" name="photo" id="photo">
         <button type="submit">Register</button>
     </form>
 </body>
