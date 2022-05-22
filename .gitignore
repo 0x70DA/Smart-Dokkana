@@ -1,3 +1,4 @@
 flask_session/
 test_database/
 __pycache__/
+select_all.py
