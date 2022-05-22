@@ -122,6 +122,16 @@ def register():
     return render_template('register.html')
 
 
+@app.route('/_face_id')
+def face_id():
+    if request.args.get('id'):
+        user_data = db.select(request.args.get('id'))
+        print(f"Hello, {user_data['name']}")
+    else:
+        print("None")
+    return ('', 204)
+
+
 def check_login_form(req):
     """ Make sure that the user submitted the form correctly. """
     # Check for username and password.

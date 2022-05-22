@@ -172,7 +172,8 @@ while True:
             if v:
                 send_request({'id': k})
 
-        send_request({})
+        if not any(user_dict.values()):
+            send_request({})
 
     temp_dict = copy.copy(user_dict)
 
