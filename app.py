@@ -126,9 +126,12 @@ def register():
 
 
 USER_ID = None  # id of user standing in front of the camera.
+
+
 @app.route('/_face_id')
 def face_id():
     """ Handle requests from face_id program. """
+    global USER_ID
     if request.args.get('id'):
         user_data = db.select(request.args.get('id'))
         USER_ID = user_data['id']
@@ -142,7 +145,16 @@ def face_id():
 @app.route('/_node_mcu')
 def node_mcu():
     """ Handle requests from NodeMCU. """
-    pass
+    item = request.args.get('name')
+    price = PRICES[item]
+    # If no user recognized respond with error code.
+    if USER_ID is None:
+        return ('Error', 503)
+
+    # Charge user and update database.
+    new_balance = db.select(USER_ID)['balance'] - price
+    db.update(USER_ID, new_balance)
+    return ('OK', 200)
 
 
 def check_login_form(req):
