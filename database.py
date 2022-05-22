@@ -76,7 +76,24 @@ class Database:
         # Return the id of the new row.
         return last_row_id
 
+    def update(self, id: int, new_balance: int):
+        """ Update data in database. """
+        # Create connection to db.
+        conn = self._connect_db()
+
+        # Create a cursor object.
+        cur = conn.cursor()
+
+        # Execute query.
+        query = "UPDATE Users SET balance = ? WHERE id = ?"
+        cur.execute(query, (new_balance, id))
+        conn.commit()
+
+        # Close connection to db.
+        self._close_db(conn)
+
 # db = Database('database.db')
 # print(db.select(1))
 # print(db.select_all())
 # print(db.insert(('example', 'example', 'example@example.com', 'example')))
+# db.update(1, 150)

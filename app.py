@@ -18,6 +18,9 @@ Session(app)
 db_file = "database.db"
 db = Database(db_file)
 
+# Prices of items in stock.
+PRICES = {'item1': 10, 'item2': 5}
+
 # Configure photo upload and save.
 UPLOAD_FOLDER = join(dirname(abspath(__file__)), 'photos')
 # ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'heif'}
@@ -122,14 +125,24 @@ def register():
     return render_template('register.html')
 
 
+USER_ID = None  # id of user standing in front of the camera.
 @app.route('/_face_id')
 def face_id():
+    """ Handle requests from face_id program. """
     if request.args.get('id'):
         user_data = db.select(request.args.get('id'))
+        USER_ID = user_data['id']
         print(f"Hello, {user_data['name']}")
     else:
-        print("None")
+        USER_ID = None
+        print(None)
     return ('', 204)
+
+
+@app.route('/_node_mcu')
+def node_mcu():
+    """ Handle requests from NodeMCU. """
+    pass
 
 
 def check_login_form(req):
