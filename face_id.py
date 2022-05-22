@@ -5,6 +5,7 @@ import os
 from os.path import splitext
 import pathlib
 import copy
+from request import send_request
 
 
 # Get a reference to webcam #0 (the default one)
@@ -12,6 +13,7 @@ video_capture = cv2.VideoCapture(0)
 
 # count how many files (images) in database folder
 known_face_encodings = []
+
 
 def count_files_in_database():
     initial_count = 0
@@ -21,9 +23,10 @@ def count_files_in_database():
 
     return initial_count
 
+
 known_face_encodings = []
 
-#encode all these pictures of users
+# encode all these pictures of users
 # picture_count = 0
 for file in os.listdir('photos/'):
     image = face_recognition.load_image_file("photos/" + file)
@@ -33,8 +36,8 @@ for file in os.listdir('photos/'):
 # print(known_face_encodings)
 
 
-#importing my database of picture names to a list
-user_dict={}
+# importing my database of picture names to a list
+user_dict = {}
 known_face_names = []
 files = os.listdir('photos/')
 for file in files:
@@ -76,14 +79,10 @@ def check():
     return face_names
 
 
-
-
-
-#using the two functions check for changes of user number (number of images in folder) and if true
+# using the two functions check for changes of user number (number of images in folder) and if true
 # re-encode all user pictures
 # update the list of user names
 # update the dictionary data structure that is outputted to the server via terminal
-
 temp_dict = copy.copy(user_dict)
 
 
@@ -99,15 +98,14 @@ while True:
         # print(known_face_names)
         # print(known_face_encodings)
         # print(count_files_in_database())
-    
+
 # print the state of users to the terminal
-    #print(user_dict)
+    # print(user_dict)
     # print("x")
 
 # in case of no faces recognized set all users to False
     for item in user_dict:
         user_dict[item] = False
-
 
     # Grab a single frame of video
     ret, frame = video_capture.read()
@@ -143,13 +141,9 @@ while True:
             else:
                 name = "unknown"
 
-
             face_names.append(name)
 
-
-
     process_this_frame = not process_this_frame
-
 
     # Display the results
     for (top, right, bottom, left), name in zip(face_locations, face_names):
@@ -167,13 +161,18 @@ while True:
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
-        #if user identified is known set this user to True
+        # if user identified is known set this user to True
         if name != "unknown":
             user_dict[name] = True
         # print("Y")
 
     if temp_dict != user_dict:
-        print(user_dict)
+        # print(user_dict)
+        for k, v in user_dict.items():
+            if v:
+                send_request({'id': k})
+
+        send_request({})
 
     temp_dict = copy.copy(user_dict)
 
@@ -181,7 +180,7 @@ while True:
     cv2.imshow('Video', frame)
 
     # Hit 'q' on the keyboard to quit!
-    if cv2.waitKey(1) & 0xFF == ord('q')  :
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 # Release handle to the webcam
