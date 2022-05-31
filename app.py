@@ -19,7 +19,7 @@ db_file = "database.db"
 db = Database(db_file)
 
 # Prices of items in stock.
-PRICES = {'item1': 10, 'item2': 5}
+# PRICES = {'item1': 10, 'item2': 5}
 
 # Configure photo upload and save.
 UPLOAD_FOLDER = join(dirname(abspath(__file__)), 'photos')
@@ -145,14 +145,21 @@ def face_id():
 @app.route('/_node_mcu')
 def node_mcu():
     """ Handle requests from NodeMCU. """
-    item = request.args.get('name')
-    price = PRICES[item]
+    msg = request.args.get('msg')
+    print(f"msg: {msg}")
+    price = 10
     # If no user recognized respond with error code.
     if USER_ID is None:
         return ('Error', 503)
 
-    # Charge user and update database.
-    new_balance = db.select(USER_ID)['balance'] - price
+    if msg == '1':
+        # User bought an item.
+        new_balance = db.select(USER_ID)['balance'] - price
+
+    elif msg == "-1":
+        # User returned an item.
+        new_balance = db.select(USER_ID)['balance'] + price
+
     db.update(USER_ID, new_balance)
     return ('OK', 200)
 
