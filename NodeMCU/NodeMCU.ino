@@ -13,7 +13,7 @@ const char *ssid = "supernova.e&m";
 const char *pass = "12345supernovae&m";
 
 // Full path to the server
-String serverName = "http://192.168.1.157:5000/_node_mcu";
+String serverName = "http://192.168.1.151:5000/_node_mcu";
 
 #define echoPin D5 
 #define trigPin D6
