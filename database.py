@@ -92,6 +92,22 @@ class Database:
         # Close connection to db.
         self._close_db(conn)
 
+    def delete(self, id: int):
+        """ Delete data in database. """
+        # Create connection to db.
+        conn = self._connect_db()
+
+        # Create a cursor object.
+        cur = conn.cursor()
+
+        # Execute query.
+        query = "DELETE FROM Users WHERE id = ?"
+        cur.execute(query, (id,))
+        conn.commit()
+
+        # Close connection to db.
+        self._close_db(conn)
+
 # db = Database('database.db')
 # print(db.select(1))
 # print(db.select_all())

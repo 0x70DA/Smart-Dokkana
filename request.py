@@ -3,5 +3,5 @@ import requests
 
 def send_request(params):
     """ Send a GET request to the server. """
-    url = "http://192.168.1.8:5000/_face_id"
+    url = "http://192.168.1.84:5000/_face_id"
     r = requests.get(url=url, params=params)
