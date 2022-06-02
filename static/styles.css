@@ -1,0 +1,9 @@
+html, body 
+{
+    font-family: 'Quicksand', sans-serif;
+}
+
+nav .navbar-brand
+{
+    font-size: xx-large;
+}

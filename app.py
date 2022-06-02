@@ -122,7 +122,10 @@ def register():
             return render_template('register.html', msg="Please, fill in all data fields.")
 
     # GET request.
-    return render_template('register.html')
+    if not session.get('id'):
+        return render_template('register.html')
+    else:
+        return redirect('/')
 
 
 USER_ID = None  # id of user standing in front of the camera.
@@ -147,7 +150,7 @@ def node_mcu():
     """ Handle requests from NodeMCU. """
     msg = request.args.get('msg')
     print(f"msg: {msg}")
-    price = 10
+    price = 55
     # If no user recognized respond with error code.
     if USER_ID is None:
         return ('Error', 503)
