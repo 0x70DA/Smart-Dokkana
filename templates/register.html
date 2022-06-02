@@ -1,33 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-</head>
+{% block title %}Register{% endblock %}
+
+{% block body %}
 
 <body>
-    <h1>Register</h1>
-    {% if msg %}
+    <main class="container py-5 text-center">
+        <h1>Register</h1>
+        {% if msg %}
         <h3>{{ msg }}</h3>
-    {% endif %}
-    <form action="/register" method="post" enctype="multipart/form-data">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off" autocapitalize="off"> <br>
-        <label for="name">Full Name</label>
-        <input type="text" name="name" id="name" placeholder="Full Name" autocomplete="off" autocapitalize="words"> <br>
-        <label for="email">Email</label>
-        <input type="text" name="email" id="email" placeholder="Email" autocomplete="off" autocapitalize="off"> <br>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" placeholder="Password" autocomplete="off"> <br>
-        <label for="confirm">Confirm Passord</label>
-        <input type="password" name="confirm" id="confirm" placeholder="Confirm Password" autocomplete="off"> <br>
-        <label for="photo">Upload Photo</label>
-        <input type="file" name="photo" id="photo"> <br>
-        <button type="submit">Register</button>
-    </form>
+        {% endif %}
+        <br>
+        <form action="/register" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <input type="text" class="form-control mx-auto w-auto" name="username" id="username"
+                    placeholder="Username" autofocus autocomplete="off" autocapitalize="off">
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control mx-auto w-auto" name="name" id="name" placeholder="Full Name"
+                    autocomplete="off" autocapitalize="words">
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control mx-auto w-auto" name="email" id="email" placeholder="Email"
+                    autocomplete="off" autocapitalize="off">
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control mx-auto w-auto" name="password" id="password"
+                    placeholder="Password" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control mx-auto w-auto" name="confirm" id="confirm"
+                    placeholder="Confirm Password" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <input type="file" class="form-control mx-auto w-auto" name="photo" id="photo"> <br>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+    </main>
 </body>
 
-</html>
+{% endblock %}

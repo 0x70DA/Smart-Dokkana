@@ -1,27 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
+{% block title %}Login{% endblock %}
+
+{% block body %}
 
 <body>
+    <main class="container py-5 text-center">
         <h1>Login</h1>
         {% if msg %}
-            <h3>{{ msg }}</h3>
+        <h3>{{ msg }}</h3>
         {% endif %}
+        <br>
         <form action="/login" method="post">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" placeholder="Username" autofocus autocomplete="off"> <br>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="Password"> <br>
-            <button type="submit">Login</button>
+            <div class="mb-3">
+                <input type="text" class="form-control mx-auto w-auto" name="username" id="username"
+                    placeholder="Username" autofocus autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control mx-auto w-auto" name="password" id="password"
+                    placeholder="Password"> <br>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
         <br>
-        <p>Or <a href="/register">Register</a> instead.</p>
+        <p>Or <a href="/register" class="link-primary">Register</a> instead.</p>
+    </main>
 </body>
 
-</html>
+{% endblock %}
